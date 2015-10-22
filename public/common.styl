@@ -1,0 +1,103 @@
+body
+  padding-top 60px
+
+  @media (max-width: 979px)
+    padding-top 0
+    
+.container-page
+  max-width 750px
+
+  ul:not(.nav-tabs) li
+    margin-bottom 0.5em
+
+.navbar .btn
+  margin-top 13px
+
+footer
+  margin-top 2em
+
+  .menu
+    float right
+    text-align right
+
+    @media(max-width: 767px)
+      float none
+      text-align left
+
+.centered
+  margin 0 auto
+
+.alert a
+  color white !important
+  font-weight bold
+  text-decoration underline
+
+.text-error a
+  color inherit
+  font-weight bold
+
+// fix input-block-level <input>s to have the regular height
+.input-block-level
+  min-height 38px
+
+a, .btn
+  cursor pointer
+
+label
+  font-weight bold
+
+pre
+  overflow auto
+  max-height 5.5em
+
+  &.terms
+    height 15em
+    max-height 15em
+    word-break normal
+  &.url
+    color #025D8C
+    text-decoration underline
+
+// Blur sensitive information to protect
+// against shoulder surfing
+.blurry
+  color transparent
+  text-shadow 0 0 5px #7B8A8B
+.break
+  word-break break-all
+
+.signed
+  cursor pointer
+  
+.proof-popover
+  pre
+    max-height 10em
+    background transparent
+    color #fff
+    border 0
+
+.beta
+  color #003480
+
+// Embed Lato font
+latofont(type, weight=400, style=normal)
+  @font-face
+    font-family Lato
+    font-style style
+    font-weight weight
+    src local('Lato '+type), local('Lato-'+type), url('lato/' + type + '.otf') format('opentype'), url('lato/' + type + '.woff') format('woff')
+latofont(Regular)
+latofont(Bold, 700)
+latofont(Black, 900)
+latofont(Italic, 400, italic)
+
+// Styles for pnotify (email fraud warning notification)
+.ui-pnotify
+  h4
+    font-size 14px
+    font-weight bold
+    line-height 16px
+  .ui-pnotify-text
+    font-size 13px
+.ui-pnotify-history-container
+  display none

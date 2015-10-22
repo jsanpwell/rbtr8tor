@@ -1,0 +1,79 @@
+extend ../views/layout
+
+append template-vars
+  active_page = '/'
+
+append css
+  link(rel='stylesheet', href='home.css')
+
+block content
+  .container-home
+    .hero-unit
+      h1 Bitrated
+      p.lead Bitcoin arbitration marketplace
+      p.sublead Protect yourself against online fraud with multi-signature transactions.
+
+      a.btn.btn-primary.btn-large(href='/new.html') Start transaction
+      = ' '
+      a.btn.btn-large(href='/arbitrate.html') Offer arbitration
+
+      p: a(href='/faq.html') or learn more
+
+
+    .row-fluid
+      .span4
+        :markdown
+          ### Consumers
+          **Protect yourself against online fraud.**
+
+          The permanent nature of Bitcoin transactions makes it unfavorable for the consumer,
+          who might have no recourse in case of fraud.
+
+          With arbitration, you can ensure that a trusted third party can reverse the payment
+          in case of fraud and help you resolve possible disputes with the merchant.
+          This allows to transact more safely, especially if you're dealing with a new or
+          unknown merchant.
+      
+      .span4
+        :markdown
+          ### Merchants
+          **Give your customers peace of mind.**
+
+          Allow your customers to transact safely with you,
+          knowing that they have a recourse in case of a dispute.
+
+          Arbitration services have been known for being favorable to the consumer on the expense of the merchant.
+          With an open marketplace and a selection of arbitrators,
+          you can ensure that the arbitrator has a fair dispute resolution process and reputable history.
+
+      .span4
+        :markdown
+          ### Arbitrators
+          **Provide dispute resolution services for a fee.**
+
+          Escrow services have traditionally been highly regulated and associated with high costs,
+          which crippled innovation and prevented small players from entering into the market.
+
+          Bitcoin's technology allows anyone to offer dispute resolution services in a way that was never possible before
+          and [does not require an escrow](faq.html#is-this-an-escrow-).
+          Help people solve disputes, build a reputation and earn fees.
+
+    .row-fluid.home-text
+      .span5.offset1
+        :markdown
+          - ### <i class="icon-check"></i> Uses Bitcoin's multi-signature transactions
+            Bitrated uses multi-signature transaction to facilitate the arbitration process.
+            [Learn more...](faq.html)
+
+          - ### <i class="icon-check"></i> Private keys are never handled by the server
+            Keys are created and processed in your browser, using client-side technology.
+            See our [security policy](security.html) for more information.
+      .span5
+        :markdown
+          - ### <i class="icon-check"></i> Arbitrator is not required for releasing the funds 
+            If the transaction ends well, the parties can release the funds without
+            any intervention from the arbitrator.
+  
+          - ### <i class="icon-check"></i> The arbitrator never has full control over the funds
+            The arbitrator can only move the funds with the permission of either the buyer or the seller,
+            and cannot control them in any way without their approval.

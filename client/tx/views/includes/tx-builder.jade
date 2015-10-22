@@ -1,0 +1,47 @@
+h3 Release funds
+p.
+  To release the funds, create the transaction below and authorize it. This will sign the transaction with
+  your private key and request approval from the other key holders.
+
+form.tx-builder(action='http://')
+  p
+    | <strong>Balance:</strong> <span class="balance">unknown</span> 
+    button.btn.btn-mini.update-balance(type='button', data-toggle='tooltip', title='Only includes confirmed transactions.')
+      i.icon-refresh
+    if !testnet
+      = ' '
+      span.muted.
+        (see <a href="https://blockchain.info/address/#{multisig}/"><i class="icon-share"></i> full transaction history</a>)
+  .addresses
+    .address.form-inline
+      button.btn.add-address(type='button', tabindex=-1): i.icon-plus
+      = ' '
+      input.input-xlarge(type='text', name='address', placeholder='Destination address')
+      = ' '
+      .input-append
+        input.input-small(type='text', name='value', placeholder='BTC amount', pattern='\\d+(\\.\\d{1,8})?')
+        .btn-group
+          .btn.dropdown-toggle(data-toggle='dropdown'): span.caret
+          ul.dropdown-menu
+            li: a.pay-remaining(title="Minus fees") Pay all remaining
+            li: a.pay-some Pay % of total
+  .clearfix
+    .btn-group.release-btn
+      button.btn.btn-primary.release Release 
+      button.btn.btn-primary.dropdown-toggle(data-toggle='dropdown'): span.caret
+      ul.dropdown-menu
+        li: a.input-rawtx Input hex transaction
+        li: a.show-rawtx Get hex transaction
+    .fees
+      label Bitcoin tx fees: 
+      input.input-small(type='text', name='fees', placeholder='BTC amount', pattern='\\d+(\\.\\d{1,8})?', value=default_fee)
+    .change
+      label Change:
+      span.change-amount n/a
+      = ' '
+      i.icon-question-sign(data-toggle='tooltip', title='Change is paid back to the multisig address, and can be released in the future.')
+.tx-requests
+  h3 Transaction requests
+  p The other parties has requested you to approve the following transactions.
+    | Click a transaction for more information.
+  ul

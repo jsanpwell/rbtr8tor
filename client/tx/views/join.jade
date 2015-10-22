@@ -1,0 +1,59 @@
+- proof_popover =  '<div class="proof-popover">'
+- proof_popover += '<p>This digital signature proves the other party accepted the terms:</p>'
+- proof_popover += '<pre>'+proof+'</pre>'
+- proof_popover += '</div>'
+
+.container-page
+  // form is processed client-side, should never be submitted anywhere
+  form(action='http://')
+    fieldset
+      legend Join transaction
+      :markdown
+        You received an invitation to join an arbitrated transaction. The other party
+        provided his public key, the arbitrator public key and the terms of agreement.
+
+        First time here? [Click here](faq.html) to learn more about how this works.
+
+      label Arbitrator
+      .help-block
+        :markdown
+           The arbitrator was chosen by the other party,
+           please make sure his choice is acceptable.
+      if trent.length > 15
+        pre.trent-pubkey= trent
+      else
+        p User: 
+          a(href="/u/#{trent}")= trent
+      .muted
+        :markdown
+           Please read the arbitrator's terms of service carefully before starting a transaction.
+           Some of them might require contacting them for approval prior to using their services.
+
+      label Terms of agreement
+      .help-block
+        :markdown
+          These are the terms provided by the other party. Please read them and make
+          sure you fully agree with them.
+
+          The terms are provided to the arbitrator in case of dispute
+          and should provide him with the information required to contact the parties
+          and make his ruling.
+          See our [list of common things to include](help/tx-terms.html) for more details.
+
+      .clearfix
+        pre.terms= terms
+        p.badge.badge-success.pull-right.signed(data-toggle='popover', data-html, data-content=proof_popover)
+          | <i class="icon-ok-sign icon-white"></i> Signed by other party
+
+      include ./includes/your-keys
+
+    button.btn.btn-large.btn-primary.has-spinner(type='submit')
+      span.spinner: i.icon-refresh.icon-spin.icon-white
+      |  I accept
+  .muted
+    :markdown
+      <i class="icon-exclamation-sign"></i>
+      Please note that sensitive information is going to be saved in the URL, and as such to your browsing history.
+      To avoid that, switch to incognito/private browsing mode (Chrome: Ctrl-Shift-N, Firefox: Ctrl-Shift-P).
+
+      By using this service, you agree to [Bitrated terms of service](/terms.html).

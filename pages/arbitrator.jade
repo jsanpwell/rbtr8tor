@@ -1,0 +1,12 @@
+extend ../views/layout
+
+prepend title
+  | Arbitrator | 
+
+append scripts
+  +js('arbitrate/manage.js')
+
+append css
+  +css('arbitrator.css')
+
+// Content is loaded with JS

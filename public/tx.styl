@@ -1,0 +1,120 @@
+@import spinner
+
+transition()
+  transition arguments
+  -webkit-transition arguments
+  -moz-transition arguments
+  -o-transition arguments
+
+.tx-details
+  label
+    font-weight normal
+  .pubkeys
+    pre
+      margin-bottom 5px
+    .help-block
+      text-align right
+      font-size 0.8em
+      margin 0
+      line-height 1em
+      color #7B8A8B    
+    .nav
+      margin-bottom -1px
+      label
+        margin 9px 1em 0 2px
+    .tab-content
+      overflow visible
+    .nav-tabs>.active>a, .nav-tabs>.active>a:hover, .nav-tabs>.active>a:focus
+      background-color whiteSmoke
+  .terms
+    transition height 0.5s, max-height 0.5s  
+  .advanced
+    overflow hidden
+    transition height 0.5s, opacity 0.5s
+
+  &.advanced-off
+    .terms
+      height 46em
+      max-height 46em
+    .advanced
+      height 0
+      opacity 0
+  &.advanced-on
+    .terms
+      height 20em
+      max-height 20em
+    .advanced
+      opacity 1
+      
+.pay
+  .multisig-address
+    text-align center
+    font-size 1.1em
+    //font-weight bold
+  .pay-link
+    text-align center
+  .text-error
+    font-size 0.9em
+
+.tx-builder
+  .addresses
+    margin 0 0 21px
+  .address
+    margin-bottom 0.5em
+    input[name=address]
+      width 22em
+    input[name=value]
+      width 7em
+      border-radius 6px 0 0 6px
+      -webkit-border-radius 6px 0 0 6px // Bugfix
+    .add-address, .del-address
+      padding 9px 13px
+      margin-right 7px
+    .btn-group
+      margin-bottom 1px // Bugfix
+      .dropdown-toggle
+        padding 9px 10px
+  .release-btn
+    float left
+  .fees, .change
+    float left
+    padding-top 8px
+    label
+      float left
+      margin 0px 7px 0 9px
+  .fees input
+    margin-top -8px
+
+.tx-dialog
+  textarea
+    height 5em
+  .confirm
+    display none
+  tfoot th
+    text-align right
+    font-weight bold
+
+.tx-requests
+  display none
+  &.has-requests
+    display block
+    list-style none
+  li span
+    cursor pointer
+    color #1ABC9C
+
+    &:hover
+      text-decoration underline
+
+.keys-advanced
+  display none
+
+.arbitrator-info
+  .loaded-data, .not-found-msg
+    display none
+  &.loaded button, &.not-found button
+    display none
+  &.loaded .loaded-data
+    display block
+  &.not-found .not-found-msg
+    display block

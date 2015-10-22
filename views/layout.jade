@@ -1,0 +1,79 @@
+block template-vars
+  modern_browser_only = false
+
+mixin menu_item(path, anchor)
+  li(class=(active_page == path ? 'active': '')): a(href=path)= anchor
+
+mixin css(path)
+  link(rel='stylesheet', href=path+'?'+ver)
+
+mixin js(path)
+  script(src=path+'?'+ver)
+
+doctype 5
+html
+  head
+    meta(charset='utf-8')
+    title: block title
+      | Bitrated
+    base(href=url)
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    if testnet
+      meta(name='testnet', content=1)
+
+    block css
+      +css('lib/bootstrap/css/flatly.min.css')
+      +css('lib/bootstrap/css/bootstrap-responsive.min.css')
+      +css('common.css')
+    block head
+  body
+    .navbar.navbar-fixed-top: .navbar-inner: .container
+      button.btn.btn-navbar(type='button', data-toggle='collapse', data-target='.nav-collapse')
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      a.brand(href='/') Bitrated
+      .nav-collapse.collapse
+        ul.nav
+          +menu_item('/', 'Home')
+          +menu_item('/new.html', 'Start transaction')
+          +menu_item('/arbitrate.html', 'Offer arbitration')
+          +menu_item('/u', 'Browse arbitrators')
+        ul.nav.pull-right
+          +menu_item('/faq.html', 'FAQ')
+          li: a(href='https://github.com/shesek/bitrated') <i class="icon-share icon-white"></i> Source Code 
+
+    if modern_browser_only
+      include includes/test-browser
+          
+    .container.content: block content
+
+    block scripts
+      //- load scripts before footer, to avoid the footer flashing
+      //- before scripts are done loading
+      +js('lib/jquery.min.js')
+      +js('lib/bootstrap/bootstrap.min.js')
+
+
+    footer.muted.container
+      .menu
+        :markdown
+          [<i span class="icon-lock"></i> Security](/security.html) &middot;
+          [Terms](/terms.html) &middot;
+          [Privacy](/terms.html#privacy) &middot;
+          [About](/about.html) &middot;
+          [Contact](mailto:hey@bitrated.com)
+
+          [1KDZMzoahiAHtAbp8VuVvNahm5SaN3PFXc](bitcoin:1KDZMzoahiAHtAbp8VuVvNahm5SaN3PFXc)
+      :markdown
+        This website is [open sourced](https://github.com/shesek/bitrated/) under the
+        [AGPLv3 License](https://github.com/shesek/bitrated/blob/master/LICENSE).
+        Contributions are welcome.
+
+      p
+        | &copy; 2014 Bitrated Ltd - <span class="beta">Beta release</span>. 
+        if testnet
+          span.text-info Running on Testnet 
+        else
+          a(href='http://testnet.bitrated.com/') Switch to Testnet 
+        a(href='https://en.bitcoin.it/wiki/Testnet'): i.icon-question-sign

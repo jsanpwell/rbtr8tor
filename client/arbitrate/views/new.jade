@@ -1,0 +1,88 @@
+//h3 Become an arbitrator
+//-.row-fluid
+  .span6
+    :markdown
+      As an arbitrator, you'll be paid a fee to resolve disputes between parties.
+      The parties will pay to a multisig address that contains
+      your public key. Your private key allows you to control the money in case of dispute
+      (with the agreement of one of the parties).
+
+
+      #### Your terms of service
+
+      Your terms of service describes your handling of disputes. This should include the fees
+      you're charging, information regarding your dispute resolution process, contact information
+      and identifying information. You can reference external files by mentioning their hash.
+
+      The terms will be signed with your private key in the next page. You should publish
+      your terms along with the signature, to show you're the public key owner.
+      
+      The terms you enter here will be considered in force for any transaction sent to a multisig
+      address with this public key. If you wish to change your terms or offer multiple terms,
+      use a separate public key.
+      
+      #### Keys
+      If you don't have keys yet, they'll be created for you. You can locally create new keys
+      with bitcoind ([see how](keys)), or
+      use the keys created by other websites, like [brainwallet](http://brainwallet.org/)
+      or [bitaddress](https://www.bitaddress.org).
+
+      If you provide us with your own public key, you'll be prompted to sign
+      locally whenever a transaction requires your confirmation.
+  .span7
+    :markdown
+      As an arbitrator, you'll be paid a fee to resolve disputes between parties.
+
+      To get started, you'll need to publish your public key along with your terms of service,
+      and a signature that shows the terms were written by the public key holder.
+      You can use the form below to create your keys and sign your terms, or do it [locally with 
+      bitcoin-qt](keys).
+
+      To use your services, the parties will pay to a multisig address that contains
+      your public key. Your private key allows you to control the money in case of dispute
+      (with the agreement of one of the parties).
+.container-page
+  //- form is processed client-side, should never be submitted anywhere
+  form.arbitrate(action='http://'): fieldset
+    legend Register to our arbitrators directory
+
+    :markdown
+      This page allows you to setup your keys and profile page, and start offering arbitration services.
+      To learn more about this website and how Bitcoin arbitration works, see [our FAQ](faq.html).
+
+    label Username
+    input.input-xlarge(type='text', name='username', placeholder='3-15 alphanumeric characters',
+                       required, pattern='^[a-zA-Z0-9]{3,15}$')
+
+    label Your public/private key
+    .help-block
+      :markdown
+        This random private key was created for you and **should be kept secret**.
+        For improved security, you can replace it with a [locally generated public key](security.html#keys)
+        and sign your transactions/messages locally.
+
+    input.input-block-level(type='text', name='key', value=privkey, placeholder='Public key (hex) or private key (base58)',
+              required, pattern='^([a-f0-9]{130}|[a-f0-9]{66}|[59cKL][123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{50,51})$',
+              autocomplete='off')
+    include ../../views/includes/local-keys
+
+    label Your terms of service
+    .help-block
+      :markdown
+        Your terms should include identifying information, contact information, the fees you're charging
+        and details regarding your dispute resolution process.
+        See our [list of common things to include](help/arbitrator-terms.html) for more information.
+
+    textarea.input-block-level(name='terms', rows=8, required, placeholder='Markdown supported', maxlength=10000)
+
+    button.btn.btn-large.btn-primary.has-spinner(type='submit')
+      span.spinner: i.icon-refresh.icon-spin.icon-white
+      |  Continue
+  .muted
+    :markdown
+      <i class="icon-exclamation-sign"></i>
+      Please note that sensitive information is going to be saved in the URL, and as such to your browsing history.
+      To avoid that, switch to incognito/private browsing mode (Chrome: Ctrl-Shift-N, Firefox: Ctrl-Shift-P).
+
+      By using this service, you agree to [Bitrated terms of services](/terms.html).
+

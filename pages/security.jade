@@ -1,0 +1,162 @@
+extend ../views/layout
+
+prepend title
+  | Security | 
+
+block content
+  .container-page
+    :markdown
+      ## Security
+
+      #### SSL encryption
+      To prevent MITM attacks, all data communication is encrypted with 256-bit SSL,
+      and the Strict-Transport-Security header is used to instruct browsers to always
+      communicate with Bitrated over SSL.
+
+      We also employ [perfect forward secrecy](http://en.wikipedia.org/wiki/Forward_secrecy)
+      to ensure that even if our keys compromised in the future, our past communications are still secured.
+      You can view our SSL Labs test score [here](https://www.ssllabs.com/ssltest/analyze.html?d=bitrated.com).
+
+      #### Client-side app
+
+      For improved security and privacy, we try to minimize the data that has to be shared
+      with the server by managing most of the arbitration process in your browser using
+      client-side technology. In particular:
+
+      - Private keys are created and used in your browser, and are **never sent to or processed by our servers**.
+      - The transaction terms are never sent to our servers.
+      - Transactions are constructed and signed locally.
+
+      Some data is sent to the server in order to enable communication between users.
+      Those messages are encrypted end-to-end using [TripleSec](https://keybase.io/triplesec/) (Salsa 20, AES, and Twofish).
+
+      In addition, some data is sent to third party APIs:
+
+      - To load the multisig balance and unspent outputs, the **multisig address** is sent to
+        the [Chain API](https://chain.com/) (over SSL).
+      - The final **transaction** is broadcasted to the Bitcoin network using
+        the [HelloBlock API](https://helloblock.io/) (over SSL).
+
+      The multisig information is only stored in the hash portion of the URL, which is *not* sent to the
+      server during http requests and is only accessible to you and people you choose to share URLs with.
+
+      Whenever we display URLs, we clearly state who it should be shared with and what
+      data they contain. URLs that contain private keys are always marked with "DO-NOT-SHARE".
+      
+      **You are responsible for keeping a safe and secure backup of your URL.
+      The data contained in the URL is cryptographically required for releasing
+      the funds, and cannot be recovered by any means.**
+
+      <div id="keys"></div>
+      #### Local private keys support
+      For improved security, you can generate your keys locally and provide our interface
+      with your *public key* only.
+      When your signature is required, you'll be given instructions for signing
+      locally using the bitcoind/bitcoin-qt api and be asked to provide the
+      signature.
+
+      To create a key pair with Bitcoind and get the public key, issue the following commands:
+
+          $ bitcoind getnewaddress # creates a key pair and returns the Bitcoin address
+          $ bitcoind validateaddress [NEW-ADDRESS] # returns information for the address
+          or, combined: $ bitcoind validateaddress `bitcoind getnewaddress`
+
+      This should return some information about the address in JSON format.
+      Look for the public key line with `"pubkey" : "[public key here]"`.
+
+      When a key is requested, replace the automatically generated private key with
+      your public key. If you're starting a transaction, you should also import the
+      multisig address to your local wallet (the command is available on the multisig
+      page).
+
+      #### Cross-site scripting
+      Cross-site scripting attacks could be used to gain access to sensitive information stored client-side.
+      To mitigate this, we:
+
+      - Properly sanitize all user input prior to displaying it.
+      - Don't store sensitive information globally (using cookies or local storage).
+        Private keys only exists in-memory while the transaction page is opened,
+        meaning that a cross-site scripting attack would have to happen within the transaction
+        page (which is a static page that loads static resources) - an attack vector on other
+        pages won't provide access to sensitive information.
+
+      #### Browser extension
+
+      **Note:** The browser extension is still work in progress, and not ready for use yet.
+      Due do the importance of the extension, the website will remain in beta stage until this is operational.
+      The text below describes how it will work once ready, and not what exists today.
+      You can track the progress [here](https://github.com/shesek/bitrated/issues/4).
+
+      The browser extension provides improved security by verifying the integrity
+      of the files served by the server. The verification is done using two factors:
+
+      - **Cold storage signature verification:**
+        In addition to SSL, static files (html/css/javascript)
+        are signed using standard Bitcoin message signatures,
+        with a private key that is stored offline and encrypted.
+        This ensures that the content served from the webserver was not tampered
+        with by a third party.
+
+      - **Comparing against the code on GitHub repository:**
+        The source code from the GitHub repository is built on Travis-CI
+        and the resulting hashes are published publicly on Travis's job page.
+        The extension ensures that the content served by the webserver matches
+        the open-source repository on GitHub.
+
+      If an attacker gains control over the web server, he still only has
+      access to information the web server already knows (which is very little).
+      To get sensitive information, he would have to modify the client-side code
+      to send back more data to the server.
+
+      For an attacker to successfully mount such an attack against someone with the
+      browser extension, he would have to:
+
+      1. Gain access to the web server.
+      1. Gain access to the personal computer of a developer with commit access
+         to the Github repository.
+      1. Commit his changes to the public GitHub repository, where they
+         can be seen by anyone.
+      1. Gain physical access to the offline machine with the private key
+         and know the passphrase used to encrypt it.
+
+      For users without the extension, an attacker only has to do (1).
+
+      #### Public key verification
+      To prevent an attacker from modifying our published Bitcoin public key that's used for signing files,
+      its permanently embedded into the Bitcoin blockchain in a way that is
+      [nearly impossible](https://en.bitcoin.it/wiki/Weaknesses#Attacker_has_a_lot_of_computing_power)
+      to modify, and becomes exponentially more difficult as time goes by.
+
+      The public key can be verified by taking the following procedure:
+
+      1. Take the SHA256 of the domain name ("bitrated.com")
+      2. Create a Bitcoin address using that hash as the private key (both compressed or uncomprssed)
+      3. Find the **first** transaction with that address as its *input address*
+      4. The *output address* of that transaction is our public key
+
+      If its ever required to change the public key, the announcement
+      will be signed with the old public key.
+
+    :markdown
+      #### No external scripts
+      Everything is loaded from the web server over SSL.
+      We don't use any CDNs, never load data with JSONP (which allows executing
+      arbitrary code), or even use an analytics service.
+
+      This prevents third party domains from serving malicious code
+      and have it executed under the context of the domain, possibly
+      giving them access to sensitive information.
+
+      #### Open source
+      This website is [open sourced](https://github.com/shesek/bitrated) under the AGPLv3 license, and can be audited
+      by anyone with technical background.
+
+      #### Bug bounty
+      We welcome security audits and offer a bounty of 0.1 BTC for responsibly disclosing
+      security issues or breaches in our client-server model.
+      If you found a bug, please contact us at [security@bitrated.com](mailto:security@bitrated.com).
+
+      At the time of writing, the BTC/USD exchange rate is ~$1100.
+      If this drastically changes (to either side) we'll pay the
+      equivalent BTC of $110 instead.
+

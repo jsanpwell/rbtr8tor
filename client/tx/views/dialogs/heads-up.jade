@@ -1,0 +1,26 @@
+.modal
+  .modal-header
+    h3 Heads up!
+  .modal-body
+    :markdown
+      **Keep a safe copy of the current page URL now.**
+
+      You will need to return to this page to control the multisig funds.
+      The URL contains all the information required for releasing the funds or
+      starting a dispute, and **cannot be recovered by any means**.
+
+    if !has_priv
+      :markdown
+        You provided us with your public key only.
+        **You should have a safe copy of the private key, in addition to the URL**.
+
+    p You can bookmark this page (Ctrl-D), or copy the URL below:
+    pre.url.click-to-select= bob_url
+    if has_priv
+      p: strong This URL includes your private key and should be kept secret.
+
+    p.muted If this website ever becomes unavailable, all the relevant information can be
+     | extracted from the URL alone and be used to release the funds using the standard
+     | Bitcoin client.  
+  .modal-footer
+    button.btn.btn-primary(type='button', data-dismiss='modal') Okay, I have a safe copy

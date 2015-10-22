@@ -1,0 +1,16 @@
+extend ../views/layout
+
+append template-vars
+  modern_browser_only = true
+
+append head
+  if testnet
+    meta(name='testnet-api', content=testnet_api)
+
+append css
+  +css('tx.css')
+
+append scripts
+  +js('tx/multisig.js')
+
+// Content is loaded with JS

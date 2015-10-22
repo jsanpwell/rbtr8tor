@@ -1,0 +1,57 @@
+.container-page
+  h3 Private user info
+
+  :markdown
+    This page contains private account information and **should be kept secret**.
+    Your public URL can be found below. 
+
+  label Username:
+  p= user.username
+
+  label Public profile URL:
+  p: a(href=user.profile_url)= user.profile_url
+  p.muted Your public profile contains your public key, your terms and your signature.
+
+  label Start transaction URL:
+  p: a.break(href=user.tx_url)= user.tx_url
+  p.muted This opens the new transaction interface with your public key pre-filled.
+
+  label Public key:
+  pre= user.pubkey
+  p.muted To allow you to arbitrate transactions, the payments will be
+        | made to a multisig address containing this public key.
+
+  label Terms:
+  .help-block
+    :markdown
+      Not sure what to write here?
+      See our [list of common things to include](help/arbitrator-terms.html) for more information.
+  form.update-terms(action='http://')
+    textarea.input-block-level(name='terms', rows=8, required, placeholder='Markdown supported', maxlength=10000)= user.content
+    .muted
+      :markdown
+        This field supports Markdown formatting.
+        See [How to Markdown](http://howtomarkdown.com/) for more information.
+    button.btn.has-spinner(type='submit')
+      span.spinner: i.icon-refresh.icon-spin.icon-white
+      |  Update terms
+    = ' '
+    span.text-info.saved-success Saved!
+
+  label Signature:
+  pre.sig= user.sig
+  p.muted This digital signature confirms that you are the owner of the public key, and that
+        | you agree with the terms.
+        | Whenever you publish your terms, you should include your signature along with it.
+
+  if priv
+    label Private key:
+    pre.blurry= priv
+    p.muted The private key allows you to control the funds, and <strong>should be kept secret</strong>.
+
+    label Import private key to bitcoind:
+    pre bitcoind importprivkey <span class="blurry">#{priv}</span>
+  else
+    p You're using a local private key and provided us with your public key only.
+      | Make sure you have a safe local copy of your private key, as it will be
+      | required for releasing funds.
